@@ -1,0 +1,18 @@
+{
+  "name": "node-learn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "fix": "eslint --fix ."
+  },
+  "pre-commit": [
+    "fix",
+    "lint"
+  ],
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "pre-commit": "^1.2.2"
+  }
+}
