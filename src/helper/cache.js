@@ -1,4 +1,4 @@
-const { cache } = require('../defaultConfig')
+const { cache } = require('../config/defaultConfig')
 
 function refreshRes(stats, res) {
   const { maxAge, expires, eTag, lastModified, cacheControl } = cache

@@ -1,10 +1,13 @@
 {
   "name": "node-learn",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.1.0",
+  "main": "src/app.js",
+  "bin": {
+    "server-anywhere": "bin/server-anywhere.js"
+  },
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/index.js",
+    "dev": "nodemon ./src/app.js",
     "lint": "eslint .",
     "fix": "eslint --fix ."
   },
@@ -20,6 +23,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "handlebars": "^4.7.7",
-    "mime": "^2.5.2"
+    "mime": "^2.5.2",
+    "yargs": "^17.0.1"
   }
 }

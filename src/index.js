@@ -1,19 +1,28 @@
-const http = require('http')
-const path = require('path')
-const colors = require('colors')
+const yargs = require('yargs')
+const pkg = require('../package.json')
+const Server = require('./app')
 
-const config = require('./defaultConfig')
-const router = require('./helper/router')
+const argv = yargs
+    .usage('Server-Anywhere [options]')
+    .options('p', {
+      alias: 'port',
+      describe: '端口号',
+      default: 9527
+    })
+    .options('h', {
+      alias: 'hostname',
+      describe: '主机地址',
+      default: '127.0.0.1'
+    })
+    .options('d', {
+      alias: 'root',
+      describe: '根目录',
+      default: process.cwd()
+    })
+    .version(pkg.version)
+    .alias('v', 'version')
+    .help()
+    .argv
 
-
-
-const server = http.createServer((req, res) => {
-  res.setHeader('Content-Type', 'text/plain;charset=UTF-8')
-  const filePath = path.join(config.root, req.url)
-  router(req, res, filePath)
-})
-
-server.listen(config.port, 'localhost',() => {
-  const addr = `http://${config.hotname}:${config.port}`
-  console.log(colors.green(`server started at ${addr}`));
-})
+    const server = new Server(argv)
+    server.start()
