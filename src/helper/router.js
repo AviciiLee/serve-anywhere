@@ -7,6 +7,7 @@ const mime = require('mime')
 const config = require('../defaultConfig')
 const compress = require('../helper/compress')
 const range = require('./range')
+const isFresh = require('./cache')
 
 const tplPath = path.join(__dirname, '../template/dir.tpl')
 const source = readFileSync(tplPath)
@@ -15,11 +16,16 @@ const template = HandleBars.compile(source.toString())
 module.exports = async function(req, res, filePath) {
   try {
     const stats = await fs.stat(filePath)
-    if(stats.isFile()) {
+    if(stats.isFile()) {           
       const mimeType = mime.getType(path.extname(filePath))
-      res.statusCode = 200
       res.setHeader('Content-Type', `${mimeType ?? 'text/plain'};charset=utf-8`)
+      if(isFresh(stats, req, res)) {
+        res.statusCode = 304
+        res.end()
+        return
+      }
       const { code, start, end } = range(stats.size, req, res)
+      res.statusCode = code
       let rs
       if(code === 200) {
         rs = createReadStream(filePath)
