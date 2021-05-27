@@ -1,9 +1,9 @@
 {
-  "name": "node-learn",
+  "name": "serve-anywhere",
   "version": "0.1.0",
   "main": "src/app.js",
   "bin": {
-    "server-anywhere": "bin/server-anywhere.js"
+    "serve-anywhere": "bin/serve-anywhere.js"
   },
   "license": "MIT",
   "scripts": {
