@@ -5,7 +5,7 @@ const path = require('path')
 const HandleBars = require('handlebars')
 const mime = require('mime')
 const config = require('../defaultConfig')
-
+const compress = require('../helper/compress')
 
 const tplPath = path.join(__dirname, '../template/dir.tpl')
 const source = readFileSync(tplPath)
@@ -18,7 +18,11 @@ module.exports = async function(req, res, filePath) {
       const mimeType = mime.getType(path.extname(filePath))
       res.statusCode = 200
       res.setHeader('Content-Type', `${mimeType ?? 'text/plain'};charset=utf-8`)
-      createReadStream(filePath).pipe(res)
+      let rs = createReadStream(filePath)
+      if(filePath.match(config.compress)) {
+        rs = compress(rs, req, res)
+      }
+      rs.pipe(res)
     } 
     if(stats.isDirectory()) {
       res.setHeader('Content-Type', 'text/html;charset=utf-8')
