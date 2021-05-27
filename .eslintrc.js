@@ -8,7 +8,12 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": 12
     },
+    globals: {
+        process: true,
+        __dirname: true,
+        __filename: true
+    },
     "rules": {
-        'no-console': 2
+        'no-console': 0
     }
 };
